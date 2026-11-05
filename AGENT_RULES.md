@@ -1,5 +1,7 @@
 # Agent Orchestration 규칙
 
+> **대상: 사람 참고.** 시험 진행 순서와 프롬프트는 [EXAM_RUNBOOK.md](EXAM_RUNBOOK.md)에만 있다.
+
 ## 기본 원칙: Main 한 명이 끝까지 소유
 Main Codex **하나의 지속 세션**이 요구사항, 프론트/백엔드, DB, 통합, 일정, 최종 제출을 책임진다. 구현을 Frontend/Backend/QA에 기본 분업하지 않는다. 작업을 **수직 기능 단위**로 완성한다.
 

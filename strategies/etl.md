@@ -1,5 +1,7 @@
 # 전략 G — ETL / 데이터 정제
 
+> **대상: Codex 참고 — 지시가 아니다.** 지시는 과제 루트의 `AGENTS.md`와 `CONTRACT.md`가 우선한다. 런북 프롬프트가 이 파일 경로를 지정할 때만 읽는다.
+
 **적용:** CSV·Excel·JSON의 변환, 통합, 오류 처리, 집계. 기본 Main 단독.
 
 - `Load → Profile → Validate → Transform → Export → Verify` 흐름.
@@ -9,6 +11,3 @@
 - 재실행 가능(idempotent)·결정론적 결과, row counts, key uniqueness, referential integrity 체크.
 - UI가 요구되지 않으면 웹앱을 만들지 않는다. 규모가 작으면 pandas/SQLite만 사용.
 
-```text
-ETL 과제다. 먼저 입력별 스키마·문제 레코드·변환 규칙을 파악해라. 원본을 보존하면서 재실행 가능한 파이프라인을 구현하고, 변환 결과와 거부 레코드, 개수·키·무결성 검증 결과를 제출해라.
-```
