@@ -32,7 +32,7 @@ git clone https://github.com/nailegg/ai-hackathon-playbook.git ~/playbook
 반입 명령, 디렉터리 구조, 단계별 Codex 프롬프트는 [EXAM_RUNBOOK.md](../EXAM_RUNBOOK.md)를 따른다. 요점은 다음과 같다.
 
 - 과제 루트에 `templates/AGENTS.md`와 `templates/CONTRACT.md`를 복사하고, **CONTRACT를 확정한 뒤에** boilerplate를 반입한다.
-- boilerplate는 과제 루트의 `web/` 하위에 clone하고 `bash web/scripts/exam-init.sh`를 실행한다. 이 스크립트가 `web/AGENTS.md`를 삭제하므로 지시 문서는 루트 `AGENTS.md` 하나만 남는다.
+- boilerplate는 과제 루트의 `web/` 하위에 clone하고 `bash web/scripts/exam-init.sh`를 실행한다. 이 스크립트는 `web/.git`과 `web/AGENTS.md`를 삭제하고 반입 출처를 `DECISIONS.md`에 기록한다(git commit은 하지 않는다). 따라서 지시 문서는 루트 `AGENTS.md` 하나만 남는다.
 - Codex는 항상 과제 루트에서 시작한다.
 - 교체 대상 예시 코드는 `web/BOILERPLATE.md` 표와 `bash web/scripts/check-placeholders.sh`로 관리한다.
 - **포기 기준:** `pnpm install` 또는 Prisma 엔진 다운로드가 5분 넘게 실패하면 `web/`을 지우고 런북의 경로 B로 간다.

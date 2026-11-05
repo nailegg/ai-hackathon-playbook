@@ -2,6 +2,55 @@
 
 **핵심 원칙: 계약 먼저, 기반 코드는 나중.** Codex가 boilerplate를 보기 전에 과제 요구사항을 `CONTRACT.md`로 고정한다. 그다음 boilerplate를 계약에 맞춰 **깎아서** 쓴다. 순서가 반대면 boilerplate의 화면·모델·예시가 요구사항처럼 보이기 시작한다.
 
+**시험 규정: `git commit`·`git push` 금지.** clone만 하고 git 쓰기 명령은 쓰지 않는다. 진행 기록은 `CONTRACT.md` 체크박스와 `DECISIONS.md`가 대신한다. git으로 되돌릴 수 없으므로 큰 삭제·구조 변경 전에는 Codex가 대상 목록을 먼저 보고하게 한다.
+
+## 용어
+
+| 용어 | 뜻 |
+|---|---|
+| `CONTRACT.md` | 과제 README를 9개 절로 정리한 요구사항 계약서. 프롬프트 1에서 Codex가 채우고 사람이 확정한다. 이후 모든 프롬프트는 이 문서의 절 번호를 가리킨다 |
+| AC (Acceptance Criteria, 수용 기준) | CONTRACT 6절의 AC1, AC2… 채점자가 화면이나 명령으로 "됐다/안 됐다"를 확인할 수 있는 문장. 번호가 작을수록 중요하다 |
+| 수직 흐름 (vertical slice) | AC 하나를 화면 → API → 서버 로직 → DB/계산 → 결과 화면까지 끝까지 동작하게 만드는 작업 단위. "DB 전부 → API 전부 → 화면 전부"처럼 층별로 쌓지 않는다 |
+| placeholder | boilerplate의 예시 코드. `BOILERPLATE-PLACEHOLDER` 주석, `Item` 템플릿, 예시 Job, "작업공간" 화면. 과제 기능이 아니다 |
+
+## CONTRACT.md 절 구성
+
+| 절 | 제목 | 채우는 내용 | 주로 쓰는 단계 |
+|---|---|---|---|
+| 1 | 한 줄 요약 | 무엇을 만드는가 | 전체 |
+| 2 | 필수 산출물 | 제출물·제출 형식 | 제출 |
+| 3 | 사용자·역할 | 역할별로 할 수 있는 일 / 없는 일 | 프롬프트 3 (역할·권한) |
+| 4 | 데이터·리소스 | 저장할 대상, 출처, 필드, 접근 정책 | 프롬프트 3 (모델·시드) |
+| 5 | 핵심 계산 | 알고리즘 입출력, hard constraint, 목표, baseline | 프롬프트 4 |
+| 6 | 수용 기준 | AC1, AC2… 중요한 순서 | 프롬프트 4·5·6 |
+| 7 | 범위 밖 | 하지 않을 것 | 범위 다툼 시 |
+| 8 | 모호함 | 질문할 것 / 가정할 것 | 프롬프트 1 검토 |
+| 9 | 구현 기반 결정 | boilerplate 사용 여부, Job 필요 여부, 재사용·교체·삭제 매핑 | 프롬프트 2 |
+
+<details><summary>채운 예시 (지난 통근버스 과제를 가정)</summary>
+
+**3절 사용자·역할**
+| 역할 | 할 수 있음 | 할 수 없음 |
+|---|---|---|
+| 관리자 | 정류장·버스 관리, 최적화 실행, 노선 확정 | — |
+| 직원 | 내 탑승 정류장 등록, 확정 노선 조회 | 다른 직원 정보 조회, 최적화 실행 |
+
+**4절 데이터·리소스**
+| 리소스 | 출처 | 접근 정책 |
+|---|---|---|
+| 정류장 | 제공 CSV | 공유 조회, 관리자만 변경 |
+| 버스(정원) | 제공 CSV | 관리자만 변경 |
+| 탑승 신청 | 직원 입력 | 개인 데이터(본인 + 관리자) |
+| 노선 결과 | 최적화 계산 | 공유 조회, 관리자만 생성 |
+
+**6절 수용 기준**
+- [ ] AC1: 관리자가 최적화를 실행하면 모든 버스가 정원을 넘지 않는 노선이 화면에 표시된다
+- [ ] AC2: 직원이 탑승 정류장을 등록하면 본인 신청 목록에 보이고 다른 직원은 볼 수 없다
+- [ ] AC3: 직원은 확정된 노선에서 자기 버스와 탑승 시각을 조회한다
+
+이 경우 **AC1 수직 흐름** = 관리자 로그인 → 최적화 실행 버튼 → `withAuth(…, ADMIN)` API → greedy 계산 + 정원 검증 함수 → 결과 DB 저장 → 노선 결과 화면.
+</details>
+
 ## 최종 구조
 
 ```text
@@ -9,10 +58,10 @@
 ├── README.md, data/ ...      과제 원본 — 읽기 전용
 ├── AGENTS.md                 playbook 템플릿 복사본 — 유일한 지시 문서
 ├── CONTRACT.md               T+3~10에 Codex가 작성하고 사람이 확정
-├── DECISIONS.md              가정·결정 기록 (서술형 답안의 근거)
+├── DECISIONS.md              가정·결정·완료 AC 기록 (서술형 답안의 근거)
 └── web/                      boilerplate (사용할 때만)
     ├── BOILERPLATE.md        기반 코드 안내 — 지시가 아니라 참고
-    └── ...                   AGENTS.md 없음 (exam-init.sh가 삭제)
+    └── ...                   .git·AGENTS.md 없음 (exam-init.sh가 삭제)
 
 ~/playbook/                   과제 폴더 밖. 사람이 읽고, Codex에게는 경로로 지정한 파일만 읽힌다
 ```
@@ -21,6 +70,16 @@
 1. **`AGENTS.md`는 하나만 둔다.** `web/AGENTS.md`는 `exam-init.sh`가 삭제한다. playbook은 과제 폴더 밖에 둔다.
 2. **범위의 기준은 `CONTRACT.md` 하나다.** 모든 구현 프롬프트는 "CONTRACT의 ACn"을 가리킨다.
 3. **더미 코드에는 표시가 있다.** `BOILERPLATE-PLACEHOLDER` 표시와 `check-placeholders.sh` 결과가 0건이어야 제출한다.
+
+### exam-init.sh
+
+**언제·누가:** T+10 프롬프트 2(경로 A)에서 Codex가 `git clone … web` 직후 **1회** 실행한다. 사람이 T+0에 실행하지 않으며, 경로 B(boilerplate 미사용)에서는 실행하지 않는다.
+
+`web/scripts/exam-init.sh`가 하는 일은 다음이 전부다. **git init·add·commit은 하지 않는다.**
+- `web/.git`, `web/AGENTS.md`, boilerplate 개발 기록(`COMPLETED.md` 등) 삭제
+- `web/.env` 생성
+- 과제 루트 `DECISIONS.md`에 반입 출처 한 줄 기록(없으면 파일 생성)
+- 설치 명령 출력(pnpm이 없으면 대체 명령)
 
 ---
 
@@ -32,6 +91,7 @@ ls -la                                             # 과제 원본 파일 목록
 git clone https://github.com/nailegg/ai-hackathon-playbook.git ~/playbook
 cp ~/playbook/templates/AGENTS.md ./AGENTS.md      # 이미 AGENTS.md가 있으면 아래 참고
 cp ~/playbook/templates/CONTRACT.md ./CONTRACT.md
+printf '# 결정 기록\n\n' > DECISIONS.md
 node -v; command -v pnpm || echo "no pnpm"         # boilerplate 가능 여부 사전 확인
 ```
 
@@ -56,49 +116,51 @@ node -v; command -v pnpm || echo "no pnpm"         # boilerplate 가능 여부 �
 - "범위 밖"에 필요한 기능이 들어가 있지 않은가
 - 모호함 중 업무 담당자에게 물어볼 것은 직접 질문하고, 답을 CONTRACT에 반영한다
 
-확정되면 `git init -q 2>/dev/null; git add AGENTS.md CONTRACT.md && git commit -m "contract"`. 커밋이 사용자 정보 없음으로 실패하면 `git config user.name examinee && git config user.email examinee@localhost`를 먼저 실행한다.
+확정되면 `DECISIONS.md`에 `T+10 CONTRACT 확정`을 한 줄 남긴다. git 커밋은 하지 않는다.
 
 > 웹 서비스가 아니거나 boilerplate 판정이 "아니오"면 **경로 B**로 간다(맨 아래).
 
 ## T+10~18 · Codex 프롬프트 2: 반입과 정리 (경로 A)
 
 ```text
-CONTRACT.md 9절 결정대로 web boilerplate를 반입하고 계약에 맞게 정리해라. 기능 구현은 아직 하지 마라.
-1) git clone https://github.com/nailegg/web_boilerplate.git web && bash web/scripts/exam-init.sh
+CONTRACT.md 9절(구현 기반 결정)대로 web boilerplate를 반입하고 계약에 맞게 정리해라. 기능 구현은 아직 하지 마라.
+1) git clone https://github.com/nailegg/web_boilerplate.git web && bash web/scripts/exam-init.sh  (web/.git·web/AGENTS.md 삭제, DECISIONS.md에 출처 기록. git commit 없음)
 2) cd web && pnpm install --frozen-lockfile && pnpm bootstrap  (pnpm이 없으면 exam-init이 출력한 명령. 5분 넘게 실패하면 중단하고 보고)
 3) web/BOILERPLATE.md만 읽어라. web/docs/는 필요할 때 해당 파일만 읽는다.
-4) CONTRACT 9절 "Boilerplate 매핑"을 채워라: 재사용(인증/역할/관리자 화면 등), 교체(dashboard·내비·seed·title), 삭제(Job 불필요 시 node scripts/prune-jobs.mjs 후 pnpm db:push --accept-data-loss).
+4) CONTRACT 9절의 "Boilerplate 매핑"을 채워라: 재사용(인증/역할/관리자 화면 등), 교체(dashboard·내비·seed·title), 삭제(Job 불필요 시 node scripts/prune-jobs.mjs 후 pnpm db:push --accept-data-loss).
 5) 역할이 USER/ADMIN과 다르면 이름과 의미를 계약에 맞게 바꾸는 계획만 적는다(구현은 프롬프트 3).
-6) pnpm build, 서버를 띄워 bash scripts/smoke.sh, bash scripts/check-placeholders.sh 결과를 보고하고 commit "setup".
+6) pnpm build, 서버를 띄워 bash scripts/smoke.sh, bash scripts/check-placeholders.sh 결과를 보고하고 DECISIONS.md에 반입 결과를 한 줄 남겨라. git 명령(commit/push/init)은 쓰지 마라.
 ```
 
 같은 시간에 사람은 별도 터미널에서 서버를 띄운다(`cd web && pnpm dev`). 내부 Browser에서 `/login` → 관리자 로그인 → `/admin`을 확인한다.
 
 **OR·알고리즘 과제라면 병렬로 (Terminal 2, 읽기 전용):**
 ```text
-~/playbook/prompts/specialist-or.md 의 지시를 따른다. 입력은 과제 README.md, CONTRACT.md 5절, 데이터 샘플. 결과를 과제 루트의 OR_SPEC.md 한 파일로만 쓰고 다른 파일은 수정하지 마라.
+~/playbook/prompts/specialist-or.md 의 지시를 따른다. 입력은 과제 README.md, CONTRACT.md 5절(핵심 계산), 데이터 샘플. 결과를 과제 루트의 OR_SPEC.md 한 파일로만 쓰고 다른 파일은 수정하지 마라.
 ```
 
 ## T+18~40 · Codex 프롬프트 3: 데이터 모델·시드·역할
 
 ```text
-CONTRACT 3·4절을 구현 기반으로 옮겨라. web/docs/FEATURE_TEMPLATE.md를 형식 참고로만 쓰고 Item이라는 이름은 남기지 마라.
+CONTRACT 3절(사용자·역할)과 4절(데이터·리소스)을 구현 기반으로 옮겨라. web/docs/FEATURE_TEMPLATE.md를 형식 참고로만 쓰고 Item이라는 이름은 남기지 마라.
 - prisma/schema.prisma에 계약의 리소스와 관계를 추가하고 pnpm db:push.
 - prisma/seed.ts를 계약의 역할별 테스트 계정 + 제공 데이터 파일을 읽어 적재하는 코드로 교체한다(하드코딩 금지). 교체 후 seed의 PLACEHOLDER 주석을 지운다.
 - 역할 이름이 다르면 lib/auth/require-user.ts의 Role, 관리자 화면 선택지, seed를 함께 바꾼다.
-- 각 리소스의 server/<feature>/service.ts에 CONTRACT 4절 접근 정책을 구현한다(아직 화면 없음).
-pnpm bootstrap, pnpm build 결과와 적재된 행 수를 보고하고, 계정 정보를 DECISIONS.md에 기록한 뒤 commit "model".
+- 각 리소스의 server/<feature>/service.ts에 CONTRACT 4절의 접근 정책을 구현한다(아직 화면 없음).
+pnpm bootstrap, pnpm build 결과와 적재된 행 수를 보고하고, 역할별 테스트 계정을 DECISIONS.md에 기록해라.
 ```
 
 ## T+40~70 · Codex 프롬프트 4: AC1 수직 흐름 (게이트: T+70)
 
+가장 중요한 수용 기준 AC1 하나를 화면부터 결과까지 실제로 동작하게 만든다. 다른 AC는 손대지 않는다.
+
 ```text
-CONTRACT의 AC1만 끝까지 구현해라: 로그인 → 화면 입력 → withAuth API → service 검증 → DB 저장/계산 → 결과 화면.
+CONTRACT 6절의 AC1만 끝까지 구현해라: 로그인 → 화면 입력 → withAuth API → service 검증 → DB 저장/계산 → 결과 화면.
 - 화면은 web/app/(app)/<feature>/에, 역할 제한 화면은 requirePageUser(...)를 쓴다.
 - app/(app)/dashboard는 AC1의 진입 화면으로 교체하고, 내비게이션은 계약의 화면으로 바꾼다(관련 PLACEHOLDER 주석 제거).
-- 계산이 있으면 몇 초 안에 끝나는 baseline을 API 안에서 동기로 실행하고, CONTRACT 5절 hard constraint를 검사하는 독립 검증 함수를 함께 만든다.
+- 계산이 있으면 몇 초 안에 끝나는 baseline을 API 안에서 동기로 실행하고, CONTRACT 5절(핵심 계산)의 hard constraint를 검사하는 독립 검증 함수를 함께 만든다.
 - scripts/smoke.sh 하단에 AC1의 성공 1개 + 권한/입력 오류 1개 check를 추가한다.
-pnpm build, smoke 결과, 브라우저 확인 경로를 보고하고 CONTRACT의 AC1 체크 후 commit.
+pnpm build, smoke 결과, 브라우저 확인 경로를 보고하고, CONTRACT의 AC1을 체크하고 DECISIONS.md에 "AC1 완료 — 확인 방법"을 남겨라.
 ```
 
 T+70에 AC1이 동작하지 않으면 다른 기능을 모두 멈추고 아래 프롬프트로 복구한다.
@@ -110,12 +172,12 @@ AC1 이외 작업을 멈춰라. AC1 흐름에서 실패하는 첫 지점을 재�
 
 AC마다 같은 프롬프트를 반복한다. **한 번에 하나씩 맡긴다.**
 ```text
-CONTRACT의 다음 미완료 AC 하나(ACn)를 구현해라. 기존 흐름을 깨지 않게 하고, smoke check를 1~2개 추가하고, pnpm build·smoke 결과를 보고한 뒤 CONTRACT 체크와 commit. 계약 밖 기능은 추가하지 마라.
+CONTRACT 6절의 다음 미완료 AC 하나(ACn)를 수직 흐름으로 구현해라. 기존 흐름을 깨지 않게 하고, smoke check를 1~2개 추가하고, pnpm build·smoke 결과를 보고한 뒤 CONTRACT 체크와 DECISIONS 한 줄을 남겨라. 계약 밖 기능은 추가하지 마라.
 ```
 
 **T+100 체크포인트:**
 ```text
-남은 시간 기준으로 CONTRACT의 AC 완료/미완료/위험을 10줄로 요약하고, T+135까지 끝낼 수 있는 AC만 남겨 순서를 다시 정해라. 버릴 AC는 CONTRACT 7절로 옮기고 DECISIONS에 이유를 쓴다.
+남은 시간 기준으로 CONTRACT의 AC 완료/미완료/위험을 10줄로 요약하고, T+135까지 끝낼 수 있는 AC만 남겨 순서를 다시 정해라. 버릴 AC는 CONTRACT 7절(범위 밖)로 옮기고 DECISIONS에 이유를 쓴다.
 ```
 
 알고리즘 개선(OR_SPEC.md의 개선안)은 모든 필수 AC가 끝난 뒤에만 한다. 개선 전후 지표를 DECISIONS에 기록한다.
@@ -128,7 +190,7 @@ CONTRACT의 다음 미완료 AC 하나(ACn)를 구현해라. 기존 흐름을 �
 2) CONTRACT 6절 AC를 하나씩 실제로 실행해 ✅/❌/미검증으로 표시한다.
 3) 권한: 비로그인 401, 역할 불일치 403, 다른 사용자 데이터 접근 차단을 smoke로 확인한다. 계산이 있으면 독립 검증 함수로 hard constraint 위반 0건을 확인한다.
 4) pnpm build, smoke, (가능하면) pnpm test:e2e 결과를 붙인다.
-최소 수정만 하고 commit "audit".
+최소 수정만 하고 결과를 DECISIONS.md에 남겨라.
 ```
 
 ## T+150~160 · 사람: 서술형 메모 + Codex 프롬프트 7: 제출 문서
@@ -144,7 +206,7 @@ CONTRACT의 다음 미완료 AC 하나(ACn)를 구현해라. 기존 흐름을 �
 
 ## T+160~180 · 제출
 
-`~/playbook/checklists/submission.md`를 따른다. 서버 터미널을 유지하고, 마지막으로 commit한다(push 금지). T+170에 제출 미리보기를 시작한다.
+`~/playbook/checklists/submission.md`를 따른다. 서버 터미널을 유지한다. git commit·push는 하지 않는다. T+170에 제출 미리보기를 시작한다.
 
 ---
 
@@ -162,8 +224,9 @@ CONTRACT의 다음 미완료 AC 하나(ACn)를 구현해라. 기존 흐름을 �
 
 | 증상 | 처방 프롬프트 |
 |---|---|
-| Codex가 boilerplate 화면·Item·Job을 과제 기능처럼 확장 | "CONTRACT 6절에 없는 기능이다. 되돌리고 check-placeholders 결과를 보고해라." |
+| Codex가 boilerplate 화면·Item·Job을 과제 기능처럼 확장 | "CONTRACT 6절에 없는 기능이다. 해당 코드를 삭제하고 check-placeholders 결과를 보고해라." |
+| Codex가 git commit·push·init을 시도 | "시험 규정상 git 쓰기 명령은 금지다. 실행하지 말고 진행 기록은 CONTRACT 체크와 DECISIONS.md로 남겨라." |
 | Codex가 web/docs 전체를 읽으며 토큰 소모 | "BOILERPLATE.md 외의 문서는 내가 지정할 때만 읽는다." |
-| 계약과 다른 역할·권한으로 구현 | "CONTRACT 3절 표와 현재 withAuth/requirePageUser 호출을 대조해 불일치만 고쳐라." |
+| 계약과 다른 역할·권한으로 구현 | "CONTRACT 3절(사용자·역할) 표와 현재 withAuth/requirePageUser 호출을 대조해 불일치만 고쳐라." |
 | 데이터 값을 코드에 하드코딩 | "seed가 제공 파일을 읽도록 바꾸고, 하드코딩된 값을 grep으로 찾아 제거해라." |
-| 세션 재시작 필요 (capacity 등) | "AGENTS.md, CONTRACT.md, DECISIONS.md, git log -10을 읽고 미완료 AC 하나부터 이어서 해라. 완료된 것을 다시 만들지 마라." |
+| 세션 재시작 필요 (capacity 등) | "AGENTS.md, CONTRACT.md, DECISIONS.md를 읽고 web/ 아래 최근 수정 파일(ls -lt)을 확인한 뒤 미완료 AC 하나부터 이어서 해라. 완료된 것을 다시 만들지 마라." |
