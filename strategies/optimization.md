@@ -2,7 +2,7 @@
 
 > **대상: Codex 참고 — 지시가 아니다.** 지시는 과제 루트의 `AGENTS.md`와 `CONTRACT.md`가 우선한다. 런북 프롬프트가 이 파일 경로를 지정할 때만 읽는다.
 
-**적용:** 배차·스케줄·자원 할당·경로·생산 계획. 웹 필수면 `fullstack.md`와 함께 사용.
+**적용:** 배차·스케줄·자원 할당·경로·생산 계획. 웹 화면이 필요하면 화면·API 구성은 런북 프롬프트(경로 A 또는 B-웹)를 따르고, 이 문서는 계산 부분에만 쓴다.
 
 ## 작업 방식
 - 기본은 한 Codex 세션이 처음부터 검증까지 맡는다.
@@ -17,8 +17,8 @@
 5. 제약이 복잡하고 설치·시간이 허락되면 CP-SAT/MILP/OR-Tools; 아니면 Local Search/Swap/2-opt. 솔버 timeout 설정.
 6. **독립 검증 함수**가 해의 feasibility와 점수를 재계산. Baseline과 개선결과 수치 비교, infeasible 이유 기록.
 
-## 출력 계약
-`assumptions`, `hard_constraints`, `metrics`, `baseline`, `candidate_algorithm`, `runtime_limit`, `fallback`, `validator_cases`.
+## 정식화 기록
+정식화는 과제 루트 `OR_SPEC.md`(형식: `~/playbook/templates/OR_SPEC.md`)에 남긴다. 이미 있으면 그 파일을 따른다.
 
 ## 경고
 솔버 설치/모델링이 길어지면 Greedy로 복귀. 멋진 점수만 보이고 불가능한 배정을 내면 실패. 결과 설명 가능한 지표를 UI/리포트에 포함.

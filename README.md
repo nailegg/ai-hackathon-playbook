@@ -19,15 +19,13 @@ SK하이닉스 AI 해커톤 2차 예선 대비용 운영 절차. 과제 정답�
 |---|---|---|
 | [EXAM_RUNBOOK.md](EXAM_RUNBOOK.md) | 사람 | 시험 내내 |
 | [templates/AGENTS.md](templates/AGENTS.md), [templates/CONTRACT.md](templates/CONTRACT.md) | Codex | T+0에 과제 루트로 복사 |
-| [templates/OR_SPEC.md](templates/OR_SPEC.md) | 사람 | 최적화 정식화가 필요할 때 직접 채움 |
-| [checklists/boilerplate-intake.md](checklists/boilerplate-intake.md) | 사람 | boilerplate 판정 기준과 제공 기능 (기준은 프롬프트 1에 이미 들어 있음) |
+| [templates/OR_SPEC.md](templates/OR_SPEC.md) | 사람 또는 OR 보조 세션 | 최적화 정식화가 필요할 때 과제 루트로 복사해 채움 |
 | [checklists/task-types.md](checklists/task-types.md) | 사람 | 계약 검토, 경로 B에서 줄 전략 문서 고르기 |
 | [strategies/](strategies) | Codex | 경로 B에서 유형별로 1개만 경로 지정 |
 | [prompts/specialist-*.md](prompts) | 두 번째 세션 | 독립 분석이 꼭 필요할 때만 |
 | [checklists/submission.md](checklists/submission.md) | 사람 | T+160 제출 |
-| [checklists/model-recovery.md](checklists/model-recovery.md) | 사람 | capacity 오류 |
-| [checklists/auth-security.md](checklists/auth-security.md) | 사람 | 권한 과제 감사 시 |
-| [AGENT_RULES.md](AGENT_RULES.md), [skills/](skills), [mcp/](mcp) | 사람 | 사전 학습용. 시험 중에는 거의 쓰지 않음 |
+| [checklists/model-recovery.md](checklists/model-recovery.md) | 사람 | 모델 capacity·API 오류. 런북 "흔한 꼬임"에서 링크 |
+| [AGENT_RULES.md](AGENT_RULES.md) | 사람 | 보조 세션을 띄울지 판단할 때 (조건·과분할 방지 규칙). 런북 "보조 세션 1건"에서 링크 |
 
 ## 시험 환경 조건
 
@@ -35,7 +33,7 @@ SK하이닉스 AI 해커톤 2차 예선 대비용 운영 절차. 과제 정답�
 - 제공된 Codex만 사용. 허용 모델 목록에서 선택하며 **Astra 사용 금지**. 개인 API 키·외부 AI 금지.
 - 개발 서버는 `0.0.0.0` 바인딩, 플랫폼 내부 Browser로 확인. 서버 터미널은 닫지 않는다.
 - 공개 Git 저장소 clone 허용(본인 사전 제작 저장소 포함). **`git commit`·`git push` 금지**, 시험 문제·결과의 외부 반출 금지. 진행 기록은 `CONTRACT.md` 체크박스와 `DECISIONS.md`.
-- 개인 PC 파일 업로드 불가. 외부 MCP 연결은 규정과 연결 가능 여부를 확인한 뒤에만.
+- 개인 PC 파일 업로드 불가. Skill·외부 MCP는 설치하지 않는다(준비·인증·네트워크 실패 비용이 이득보다 크다).
 
 ## 과거 교훈
 

@@ -42,5 +42,5 @@
 - Web Boilerplate 사용: 예/아니오 — 판정 근거:
 - 외부 LLM API: 제공됨(키·모델·호출 방법 근거) / 없음 → 없으면 LLM 없는 방식(검색·규칙·발췌)으로 범위 확정
 - 검증 명령: (예: `pnpm build && bash scripts/smoke.sh`, `pytest -q`, `python run.py && python validate.py`)
-- Job/Worker 필요: 예/아니오 (아니오면 `node scripts/prune-jobs.mjs`)
+- Job/Worker 필요: 예/아니오 (경로 A에서 아니오면 `cd web && node scripts/prune-jobs.mjs`)
 - Boilerplate 매핑: 재사용 / 교체 / 삭제할 것

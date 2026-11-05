@@ -6,7 +6,7 @@
 
 **핵심 원칙: 계약 먼저, 기반 코드는 나중.** Codex가 boilerplate를 보기 전에 과제 요구사항을 `CONTRACT.md`로 고정한다. 그다음 boilerplate를 계약에 맞춰 **깎아서** 쓴다. 순서가 반대면 boilerplate의 화면·모델·예시가 요구사항처럼 보이기 시작한다.
 
-**시험 규정: `git commit`·`git push` 금지.** clone만 하고 git 쓰기 명령은 쓰지 않는다. 진행 기록은 `CONTRACT.md` 체크박스와 `DECISIONS.md`가 대신한다. git으로 되돌릴 수 없으므로 큰 삭제·구조 변경 전에는 Codex가 대상 목록을 먼저 보고하게 한다.
+**시험 규정: `git commit`·`git push` 금지.** clone만 하고 git 쓰기 명령은 쓰지 않는다. 진행 기록은 `CONTRACT.md` 체크박스와 `DECISIONS.md`가 대신한다. `.git`이 없는 곳(`web/` 등)은 되돌릴 수 없으므로 큰 삭제·구조 변경 전에는 Codex가 대상 목록을 먼저 보고하게 한다.
 
 ## 용어
 
@@ -14,7 +14,7 @@
 |---|---|
 | `CONTRACT.md` | 과제 README를 9개 절로 정리한 요구사항 계약서. 프롬프트 1에서 Codex가 채우고 사람이 확정한다. 이후 모든 프롬프트는 이 문서의 절 번호를 가리킨다 |
 | AC (Acceptance Criteria, 수용 기준) | CONTRACT 6절의 AC1, AC2… 채점자가 화면이나 명령으로 "됐다/안 됐다"를 확인할 수 있는 문장. 번호가 작을수록 중요하다 |
-| 수직 흐름 (vertical slice) | AC 하나를 화면 → API → 서버 로직 → DB/계산 → 결과 화면까지 끝까지 동작하게 만드는 작업 단위. "DB 전부 → API 전부 → 화면 전부"처럼 층별로 쌓지 않는다 |
+| 수직 흐름 (vertical slice) | AC 하나를 처음부터 끝까지 동작하게 만드는 작업 단위. 웹: 화면 → API → 서버 로직 → DB/계산 → 결과 화면. 결과물 과제: 입력 → 계산 → 출력 파일 → 검증기. "DB 전부 → API 전부 → 화면 전부"처럼 층별로 쌓지 않는다 |
 | placeholder | boilerplate의 예시 코드. `BOILERPLATE-PLACEHOLDER` 주석, `Item` 템플릿, 예시 Job, "작업공간" 화면. 과제 기능이 아니다 |
 
 ## CONTRACT.md 절 구성
@@ -29,7 +29,7 @@
 | 6 | 수용 기준 | AC1, AC2… 중요한 순서 | 프롬프트 3·4·5 |
 | 7 | 범위 밖 | 하지 않을 것 | 범위 다툼 시 |
 | 8 | 모호함 | 질문할 것 / 가정할 것 | 프롬프트 1 검토 |
-| 9 | 구현 기반 결정 | boilerplate 사용 여부, Job 필요 여부, 재사용·교체·삭제 매핑 | 프롬프트 2 |
+| 9 | 구현 기반 결정 | 형태, boilerplate 사용 여부, LLM API, 검증 명령, Job 필요 여부, 재사용·교체·삭제 매핑 | 프롬프트 1에서 작성, 프롬프트 2(경로 A)·B1/R1/W1(경로 B)에서 보완 |
 
 <details><summary>채운 예시 (지난 통근버스 과제를 가정)</summary>
 
@@ -163,9 +163,9 @@ web/은 이미 반입·설치되어 있고 서버가 3000번에서 실행 중이
 기능 구현은 아직 하지 마라.
 ```
 
-**보조 세션 1건 (선택, 사람이 판단):** 과제 유형에 허용된 분할이 하나 있다(최적화 → OR 정식화, RAG → 평가 세트, 분석 → 데이터 품질 등. 표는 [AGENT_RULES.md](AGENT_RULES.md)). 조건에 맞으면 **T+10 계약 확정 직후** Terminal 2에서 두 번째 Codex를 과제 루트에서 시작하고 `~/playbook/prompts/specialist-*.md`의 프롬프트를 붙여 넣는다. 결과 파일 하나(예: `OR_SPEC.md`), 10분, 읽기 전용이다. Main은 그동안 프롬프트 2·3을 진행하고 결과 파일이 생기면 반영한다.
+**보조 세션 1건 (선택, 사람이 판단):** 과제 유형에 허용된 분할이 하나 있다(최적화 → OR 정식화, RAG → 평가 세트, 분석 → 데이터 품질 등. 유형별 표는 [checklists/task-types.md](checklists/task-types.md)의 "허용 보조 세션" 열). 조건에 맞으면 **T+10 계약 확정 직후** Terminal 2에서 두 번째 Codex를 과제 루트에서 시작하고 `~/playbook/prompts/specialist-*.md`의 프롬프트를 붙여 넣는다. 결과 파일 하나(예: `OR_SPEC.md`), 10분, 읽기 전용이다. Main은 그동안 프롬프트 2·3을 진행하고 결과 파일이 생기면 반영한다.
 - 최적화 정식화가 명백하면(예: greedy + 정원 검증) 보조 세션 없이 `cp ~/playbook/templates/OR_SPEC.md .` 후 사람이 5분 안에 직접 채운다. 토큰이 들지 않고 서술형 준비도 된다.
-- Main Codex가 보조 세션을 직접 띄우게 하지 않는다. 동시에 1개까지만.
+- Main Codex가 보조 세션을 직접 띄우게 하지 않는다. 동시에 1개까지만. 띄울지 판단하는 조건과 과분할 방지 규칙은 [AGENT_RULES.md](AGENT_RULES.md).
 
 ## T+15~70 · Codex 프롬프트 3: AC1 수직 흐름 (게이트: T+70)
 
@@ -231,7 +231,7 @@ CONTRACT 6절의 다음 미완료 AC 하나(ACn)를 수직 흐름으로 구현�
 
 ## 경로 B — boilerplate를 쓰지 않는 과제
 
-T+0 준비와 프롬프트 1(계약)은 경로 A와 같다. Terminal 2의 병렬 반입은 하지 않는다(이미 했다면 `rm -rf web`). 경로 B로 확정되면 과제 루트 `AGENTS.md`의 디렉터리 지도에서 `web/` 행을 지운다(Codex가 없는 파일을 찾지 않도록). 계약의 9절 "형태"로 세 갈래 중 하나를 고른다. 어느 갈래인지와 Codex에게 줄 전략 문서는 [checklists/task-types.md](checklists/task-types.md) 표를 본다.
+T+0 준비와 프롬프트 1(계약)은 경로 A와 같다. Terminal 2의 병렬 반입은 하지 않는다(이미 했다면 `rm -rf web`). 경로 B로 확정되면 과제 루트 `AGENTS.md`의 디렉터리 지도에서 `web/` 행을 지운다(Codex가 없는 파일을 찾지 않도록). 계약의 9절 "형태"로 세 갈래 중 하나를 고른다. 어느 갈래인지, Codex에게 줄 전략 문서, 허용되는 보조 세션은 [checklists/task-types.md](checklists/task-types.md) 표를 본다. 보조 세션 규칙(사람이 띄움, 1개, 10분, 결과 파일 하나)은 경로 A와 같다.
 
 | 갈래 | 해당 과제 | 프롬프트 |
 |---|---|---|
@@ -366,4 +366,5 @@ T+100 체크포인트는 경로 A와 같은 프롬프트를 쓴다.
 | 새 모델 API만 500 (`Cannot read properties of undefined (reading 'create')`) | 스키마 변경 후 서버를 재시작하지 않은 것. Terminal 3에서 `Ctrl+C` 후 `pnpm dev` |
 | 로그인 후 계속 `/login`으로 돌아옴 | 사람이 `web/.env`에 `COOKIE_SAMESITE="none"`, `COOKIE_SECURE="true"` 추가 후 서버 재시작 |
 | 과제 README가 커밋을 명시적으로 요구 | README가 우선한다. 요구된 범위에서만 커밋하고 DECISIONS에 기록. push는 하지 않는다 |
-| 세션 재시작 필요 (capacity 등) | "AGENTS.md, CONTRACT.md, DECISIONS.md를 읽고 web/ 아래 최근 수정 파일(ls -lt)을 확인한 뒤 미완료 AC 하나부터 이어서 해라. 완료된 것을 다시 만들지 마라." |
+| 모델 capacity·API 오류 (`Selected model is at capacity` 등) | 같은 요청을 연타하지 말고 [checklists/model-recovery.md](checklists/model-recovery.md) 절차(상태 저장 → 허용 모델 전환 → 반복되면 신고)를 따른다. 세션을 새로 열어야 하면 아래 행의 프롬프트를 쓴다 |
+| 세션 재시작 필요 (capacity 등) | "AGENTS.md, CONTRACT.md, DECISIONS.md를 읽고 작업 폴더(경로 A면 web/)의 최근 수정 파일(ls -lt)을 확인한 뒤 미완료 AC 하나부터 이어서 해라. 완료된 것을 다시 만들지 마라." |
