@@ -4,8 +4,10 @@
 
 **적용:** 배차·스케줄·자원 할당·경로·생산 계획. 웹 필수면 `fullstack.md`와 함께 사용.
 
-## 에이전트
-Main Solver 또는 Main Full-stack이 코드를 소유. OR Specialist는 **읽기 전용 수학적 정식화**만. OR Skill: `skills/exam-or-triage/SKILL.md` 먼저, 고난도면 공개 전문 Skill 문서 참고.
+## 작업 방식
+- 기본은 한 Codex 세션이 처음부터 검증까지 맡는다.
+- **허용되는 분할 1건 — OR 정식화:** 목적함수가 모호하거나 hard constraint가 3개 이상이라 정식화가 구현을 막을 때. 사람이 Terminal 2에서 `~/playbook/prompts/specialist-or.md`로 두 번째 세션을 띄운다. 읽기 전용이고 결과는 과제 루트 `OR_SPEC.md` 한 파일, 10분 안에 끝낸다. Main은 그동안 기계적인 작업을 진행하고, 끝나면 그 파일을 읽어 반영한다.
+- 그 밖의 역할 분할(Frontend/Backend/QA 등), 구현 분할, Codex가 스스로 에이전트를 띄우는 것은 하지 않는다.
 
 ## 6단계
 1. 입력/출력과 규모, 단위, 시간창·용량 확인. 누락·불가능 사례 식별.

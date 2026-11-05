@@ -19,7 +19,8 @@ SK하이닉스 AI 해커톤 2차 예선 대비용 운영 절차. 과제 정답�
 |---|---|---|
 | [EXAM_RUNBOOK.md](EXAM_RUNBOOK.md) | 사람 | 시험 내내 |
 | [templates/AGENTS.md](templates/AGENTS.md), [templates/CONTRACT.md](templates/CONTRACT.md) | Codex | T+0에 과제 루트로 복사 |
-| [checklists/boilerplate-intake.md](checklists/boilerplate-intake.md) | Codex | 프롬프트 1에서 boilerplate 사용 판정 |
+| [templates/OR_SPEC.md](templates/OR_SPEC.md) | 사람 | 최적화 정식화가 필요할 때 직접 채움 |
+| [checklists/boilerplate-intake.md](checklists/boilerplate-intake.md) | 사람 | boilerplate 판정 기준과 제공 기능 (기준은 프롬프트 1에 이미 들어 있음) |
 | [checklists/task-types.md](checklists/task-types.md) | 사람 | 계약 검토, 경로 B에서 줄 전략 문서 고르기 |
 | [strategies/](strategies) | Codex | 경로 B에서 유형별로 1개만 경로 지정 |
 | [prompts/specialist-*.md](prompts) | 두 번째 세션 | 독립 분석이 꼭 필요할 때만 |

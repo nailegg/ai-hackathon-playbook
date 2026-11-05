@@ -1,6 +1,6 @@
 # Web Boilerplate 사용 판정
 
-> **대상: Codex 참고(프롬프트 1에서 이 파일만 읽는다).** 지시가 아니라 판정 기준이다. 반입 명령과 순서는 사람용 [EXAM_RUNBOOK.md](../EXAM_RUNBOOK.md)에 있다.
+> **대상: 사람 참고.** 판정 기준 5개는 런북 프롬프트 1에 그대로 들어 있어 Codex는 이 파일을 읽지 않아도 된다. 반입 명령과 순서는 사람용 [EXAM_RUNBOOK.md](../EXAM_RUNBOOK.md)에 있다.
 
 Web Boilerplate: https://github.com/nailegg/web_boilerplate — Next.js + Prisma(SQLite) + 세션 인증 + USER/ADMIN + 관리자 화면.
 

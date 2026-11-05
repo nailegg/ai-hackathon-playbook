@@ -4,18 +4,18 @@
 
 ## 신호 → 유형 → 경로
 
-| 과제 README의 신호 | 유형 | 런북 경로 | Codex에게 경로로 줄 참고 문서 (최대 1~2개) |
-|---|---|---|---|
-| 로그인·역할·데이터 저장·화면이 명시, 스택 지정 없음 | A 업무 웹앱 | **A** | (boilerplate의 `BOILERPLATE.md`) |
-| A + 배차·경로·스케줄 등 계산 | A + 최적화 | **A** | `strategies/optimization.md` |
-| 웹 화면은 필요하지만 스택·스타터가 지정됨, 또는 로그인·저장 없는 단순 화면 | 지정 스택·단순 웹 | **B-웹** | `strategies/fullstack.md` |
-| 결과 파일·알고리즘만 요구 | B 최적화 엔진 | **B-결과물** | `strategies/optimization.md` |
-| 문서 검색·자연어 답변·인용 | C RAG | **B-결과물** (로그인·저장까지 필요하면 A) | `strategies/rag-agent.md` |
-| 분석 보고·시각화·의사결정 | D 데이터 분석 | **B-결과물** | `strategies/data-analysis.md` |
-| 기존 소스 + 실패 테스트·버그 재현 | E 코드 수리 | **B-수리** | `strategies/codebase-repair.md` |
-| 답변 품질·평가 하네스 | F AI 평가 | **B-결과물** | `strategies/ai-evaluation.md` |
-| CSV·JSON 변환·정제·집계 | G ETL | **B-결과물** | `strategies/etl.md` |
-| 위 어디에도 깔끔히 맞지 않음 | 예상 밖 | **B-결과물** | `strategies/unknown-task.md` |
+| 과제 README의 신호 | 유형 | 런북 경로 | Codex에게 경로로 줄 참고 문서 (최대 1~2개) | 허용 보조 세션 (선택) |
+|---|---|---|---|---|
+| 로그인·역할·데이터 저장·화면이 명시, 스택 지정 없음 | A 업무 웹앱 | **A** | (boilerplate의 `BOILERPLATE.md`) | 없음 |
+| A + 배차·경로·스케줄 등 계산 | A + 최적화 | **A** | `strategies/optimization.md` | OR 정식화 → `OR_SPEC.md` |
+| 웹 화면은 필요하지만 스택·스타터가 지정됨, 또는 로그인·저장 없는 단순 화면 | 지정 스택·단순 웹 | **B-웹** | `strategies/fullstack.md` | 없음 |
+| 결과 파일·알고리즘만 요구 | B 최적화 엔진 | **B-결과물** | `strategies/optimization.md` | OR 정식화 → `OR_SPEC.md` |
+| 문서 검색·자연어 답변·인용 | C RAG | **B-결과물** (로그인·저장까지 필요하면 A) | `strategies/rag-agent.md` | 평가 세트 → `EVAL_SET.md` |
+| 분석 보고·시각화·의사결정 | D 데이터 분석 | **B-결과물** | `strategies/data-analysis.md` | 데이터 품질 → `DATA_QUALITY.md` |
+| 기존 소스 + 실패 테스트·버그 재현 | E 코드 수리 | **B-수리** | `strategies/codebase-repair.md` | 호출 경로 지도 → `REPAIR_MAP.md` |
+| 답변 품질·평가 하네스 | F AI 평가 | **B-결과물** | `strategies/ai-evaluation.md` | 루브릭 → `RUBRIC.md` |
+| CSV·JSON 변환·정제·집계 | G ETL | **B-결과물** | `strategies/etl.md` | 없음 |
+| 위 어디에도 깔끔히 맞지 않음 | 예상 밖 | **B-결과물** | `strategies/unknown-task.md` | 도메인·API 조사 → `RESEARCH.md` |
 
 ## 판별 원칙
 

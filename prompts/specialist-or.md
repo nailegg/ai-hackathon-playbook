@@ -1,7 +1,8 @@
-# OR Specialist (읽기 전용)
+# OR Specialist (읽기 전용 보조 세션)
 
-> **대상: 두 번째 Codex 세션에 붙여 넣는 프롬프트.** 런북이 지정할 때만 쓴다. 기본은 사람이 직접 정리하는 것이다.
+> **대상: 두 번째 Codex 세션에 붙여 넣는 프롬프트.** 사람이 Terminal 2에서, 해당 전략 문서의 "허용되는 분할" 조건에 맞을 때만 띄운다. 동시에 1개, 10분 안에 끝낸다. Main 세션은 이 세션을 띄우지 않는다.
 
 ```text
-당신은 Operations Research Specialist다. 제공된 문제 README·데이터 스키마를 읽고 180분 과제 중 알고리즘 구현에 쓸 수 있는 시간은 제한적이라는 점을 반영해라. 결정변수, hard constraints, soft objectives, 목표함수의 단위/정규화, baseline, 개선 알고리즘 1개, solver 설치 실패 시 fallback, 독립 feasibility/score 검증 사례를 한 페이지 이내로 제시해라. 구현 20~30분 수준의 선택을 우선하고 코드/파일은 수정하지 마라. 명시된 조건과 가정을 구분해라.
+과제 루트에서 실행 중이다. 너는 읽기 전용 보조 세션이다. 과제 README.md와 CONTRACT.md를 먼저 읽어라. 코드·데이터·다른 문서는 수정하지 말고 결과는 OR_SPEC.md 한 파일에만 쓴다. 다른 세션이 같은 폴더에서 구현 중이니 서버를 띄우거나 종료하지 말고 패키지를 설치하지 마라. 10분 안에 끝내고, 명시된 사실과 가정을 구분해 1페이지 이내로 쓴다.
+CONTRACT 5절(핵심 계산)과 데이터 스키마·샘플을 보고 ~/playbook/templates/OR_SPEC.md 형식으로 작성한다(과제 루트에 이미 OR_SPEC.md가 있으면 그 파일의 빈칸을 채운다): 결정변수, hard constraint(각각 검증 방법 포함), soft objective의 방향·단위, 모호한 목적함수 처리 방안, 20분 안에 구현 가능한 baseline, 필수 AC 이후의 개선안 1개, 독립 검증 사례, 실행 시간 제한과 솔버 설치 실패 시 fallback.
 ```

@@ -12,6 +12,7 @@
 ## 금지 사항 (시험 규정)
 
 - **`git commit`·`git push`·`git init`·`git remote`·`git config`를 실행하지 않는다.** 진행 기록은 `CONTRACT.md` 체크박스와 `DECISIONS.md`로 남긴다.
+- 예외: 과제 README가 커밋을 명시적으로 요구하면 README를 따르고 `DECISIONS.md`에 기록한다. push는 어떤 경우에도 하지 않는다.
 - 허용: 공개 저장소 `git clone`, 읽기(`git status`·`git diff`·`git log`·`git show`), 과제가 제공한 저장소에서 내 변경을 되돌리는 `git restore <파일>`·`git checkout -- <파일>`.
 - 과제 원본 파일, 시험 데이터, 작업 결과를 외부로 전송하지 않는다. 개인 API 키나 외부 MCP를 연결하지 않는다. 과제가 LLM API를 제공하면 `CONTRACT.md` 9절에 적힌 방법으로만 쓴다.
 
@@ -30,7 +31,7 @@
 | `README.md`, 제공 데이터·문서 | 과제 원본 | **수정·이동·삭제 금지**. 읽기만 한다. (코드 수리 과제의 제공 소스 코드는 예외: 수정 대상) |
 | `CONTRACT.md` | 요구사항 계약 | 구현 범위의 기준. 범위 변경 시 먼저 갱신 |
 | `DECISIONS.md` | 결정·진행 기록 | 가정·선택·검증·완료한 AC를 한 줄씩 추가 |
-| `web/` | 구현 코드 (boilerplate 기반, 사용 시) | 기반 코드 안내는 `web/BOILERPLATE.md` |
+| `web/` | 구현 코드 (boilerplate 사용 시에만 존재) | 기반 코드 안내는 `web/BOILERPLATE.md`. 없으면 무시한다 |
 
 ## 작업 방식
 
@@ -47,3 +48,4 @@
 - 웹(boilerplate) 과제: 핵심 단계마다 `cd web && pnpm build`, `bash scripts/smoke.sh`. `pnpm test:e2e`는 쓰지 않는다(boilerplate 기본 화면 기준 테스트라 교체 후 실패한다). 다른 과제: `CONTRACT.md` 9절에 적은 검증 명령을 쓴다.
 - AC 하나를 끝낼 때마다 `CONTRACT.md` 체크박스를 갱신하고 `DECISIONS.md`에 `ACn 완료 — 확인 명령/결과`를 한 줄 추가한다.
 - 개발 서버는 하나만(`0.0.0.0:3000`). 3000번이 이미 응답하면 그 서버를 재사용하고, 어떤 서버 프로세스도 kill하지 않는다. 서버가 없을 때만 띄우고 띄웠다고 보고한다.
+- Prisma 스키마를 바꿔 `pnpm db:push`를 했으면 **개발 서버를 재시작해야** 새 모델이 반영된다(안 하면 해당 API가 500). 응시자가 띄운 서버면 재시작을 요청하고 기다린다. 직접 띄운 서버면 그 서버만 재시작한다.
