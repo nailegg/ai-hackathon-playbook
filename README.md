@@ -3,6 +3,8 @@
 SK하이닉스 AI 해커톤 2차 예선 대비용 **실행 전략 레퍼런스**. 공개 GitHub에 게시하고 시험 환경에서 Clone해 사용할 수 있는 문서·경량 Skill 모음이다. **과제 정답이나 사전 작성된 답안이 아니라** 문제 유형 판별, 에이전트 운영, 테스트/제출에 관한 절차다.
 
 ## 사용법: 딱 3단계
+> 시험 시작 직후에는 **[EXAM_RUNBOOK.md](EXAM_RUNBOOK.md)**를 열고 그대로 따른다. 아래 3단계와 나머지 문서는 런북이 필요할 때 가리키는 참고 자료다.
+
 1. 문제 폴더의 `README.md`와 데이터를 먼저 읽고 [START_HERE.md](START_HERE.md) 또는 [prompts/initial-triage.md](prompts/initial-triage.md)로 유형을 판별한다.
 2. 웹 서비스 과제면 [반입 절차](checklists/boilerplate-intake.md)로 Web Boilerplate 사용 여부를 정한다. 예상 유형이 맞으면 필요한 전략 문서 **최대 2개**만 골라 읽는다. 맞지 않으면 [Unknown Task Mode](strategies/unknown-task.md)를 사용한다. 예: 업무 최적화 웹앱은 [fullstack](strategies/fullstack.md) + [optimization](strategies/optimization.md).
 3. Main Codex가 구현을 소유하고, **필요한 경우에만** 읽기 전용 Specialist를 호출한다. T+135분 이후 기능 추가보다 검증·제출을 우선한다.
@@ -32,6 +34,8 @@ SK하이닉스 AI 해커톤 2차 예선 대비용 **실행 전략 레퍼런스**
 지난 과제는 관리자/직원 Auth가 필요한 **통근버스 노선 최적화 웹앱**으로, 목적함수는 모호했다. Director/Frontend/Backend/QA를 매 단계 반복 호출해 조율 비용이 컸고, OR 특화 분석과 CLI 활용이 부족했다. 연습용 제조 스케줄링 과제는 `Selected model is at capacity. Please try a different model.` 오류로 중단되었다. **완성도와 모델 장애를 구분**해 회고한다.
 
 ## 파일 안내
+- [EXAM_RUNBOOK.md](EXAM_RUNBOOK.md): **T+0부터 제출까지의 단계와 복사용 프롬프트 (시험 당일 기준 문서)**
+- [templates/](templates): 과제 루트에 복사할 `AGENTS.md`, `CONTRACT.md`
 - [START_HERE.md](START_HERE.md): 5분 분기표와 실행 시작
 - [checklists/boilerplate-intake.md](checklists/boilerplate-intake.md): Playbook·Web Boilerplate 반입 위치, 사용 여부 판정, 첫 지시
 - [strategies/unknown-task.md](strategies/unknown-task.md): 새로운 출제 유형을 강제로 분류하지 않는 범용 fallback

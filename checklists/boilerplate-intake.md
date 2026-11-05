@@ -27,37 +27,15 @@ git clone https://github.com/nailegg/ai-hackathon-playbook.git ~/playbook
 
 하나라도 아니면 사용하지 않는다. 인증만 필요하면 boilerplate의 `lib/auth/`(scrypt 해싱, DB 세션, HttpOnly 쿠키)와 `withAuth` 패턴을 참고해 과제 스택으로 옮겨 쓴다.
 
-## 3. 반입 (약 3분)
+## 3. 반입 이후
 
-```bash
-cd <과제 작업 폴더>
-git clone https://github.com/nailegg/web_boilerplate.git web
-cd web
-bash scripts/exam-init.sh          # 개발 이력 제거, 출처 명시 baseline 커밋, .env·DECISIONS.md 생성
-pnpm install --frozen-lockfile     # pnpm이 없으면 exam-init.sh가 출력한 명령 사용
-pnpm bootstrap && pnpm dev         # 0.0.0.0:3000
-```
+반입 명령, 디렉터리 구조, 단계별 Codex 프롬프트는 [EXAM_RUNBOOK.md](../EXAM_RUNBOOK.md)를 따른다. 요점은 다음과 같다.
 
-- 과제 폴더 **루트가 아니라 `web/` 하위**에 둔다. boilerplate의 `README.md`·`AGENTS.md`가 과제 README와 섞이지 않게 하기 위해서다. Codex는 `web/` 안에서 작업할 때만 `web/AGENTS.md`(시험 모드 규칙)를 읽는다.
-- `exam-init.sh`는 boilerplate의 git 이력을 지운다. git log 평가에 과거 개발 이력이 섞이지 않고, 첫 커밋에 출처가 남는다.
-- **포기 기준:** `pnpm install` 또는 Prisma 엔진 다운로드가 5분 넘게 실패하면 `web/`을 지우고 과제가 허용하는 가장 단순한 스택으로 전환한다.
-
-## 4. 반입 직후 확인 (2분)
-
-```bash
-bash scripts/smoke.sh               # 401/201/200/403/400/200/200 모두 PASS
-```
-
-내부 Browser에서 `/login` → `admin@example.com` / `admin12345` 로그인 → `/admin` 화면을 확인한다.
-
-## 5. Codex에게 줄 첫 구현 지시
-
-```text
-과제 README를 기준으로 web/ 안에서 구현한다. web/AGENTS.md와 web/docs/FEATURE_TEMPLATE.md만 먼저 읽어라(다른 docs는 필요할 때만).
-과제의 핵심 리소스 하나를 FEATURE_TEMPLATE을 복사해 만들고, 과제가 요구하는 역할별 접근 정책을 service.ts와 withAuth의 role로 구현해라.
-로그인 → 핵심 입력 → 서버 검증 → 저장/계산 → 결과 화면까지 한 흐름을 끝낸 뒤 pnpm build와 bash scripts/smoke.sh 결과를 보고해라.
-가정은 DECISIONS.md에 한 줄씩 기록하고 질문 없이 진행해라. 결과를 바꾸는 모호함만 질문해라.
-```
+- 과제 루트에 `templates/AGENTS.md`와 `templates/CONTRACT.md`를 복사하고, **CONTRACT를 확정한 뒤에** boilerplate를 반입한다.
+- boilerplate는 과제 루트의 `web/` 하위에 clone하고 `bash web/scripts/exam-init.sh`를 실행한다. 이 스크립트가 `web/AGENTS.md`를 삭제하므로 지시 문서는 루트 `AGENTS.md` 하나만 남는다.
+- Codex는 항상 과제 루트에서 시작한다.
+- 교체 대상 예시 코드는 `web/BOILERPLATE.md` 표와 `bash web/scripts/check-placeholders.sh`로 관리한다.
+- **포기 기준:** `pnpm install` 또는 Prisma 엔진 다운로드가 5분 넘게 실패하면 `web/`을 지우고 런북의 경로 B로 간다.
 
 ## Boilerplate가 제공하는 것 (다시 만들지 않는다)
 

@@ -1,5 +1,7 @@
 # START HERE — 시험 시작 후 10분
 
+> 실제 진행 순서와 프롬프트는 [EXAM_RUNBOOK.md](EXAM_RUNBOOK.md)를 따른다. 이 문서는 유형 판별 참고용이다.
+
 ## Step 0 (0~2분): 읽기
 이 Playbook은 과제 폴더 **밖**(`~/playbook`)에 clone한다. → [저장소 반입 절차](checklists/boilerplate-intake.md)
 
