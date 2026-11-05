@@ -56,7 +56,7 @@ node -v; command -v pnpm || echo "no pnpm"         # boilerplate 가능 여부 �
 - "범위 밖"에 필요한 기능이 들어가 있지 않은가
 - 모호함 중 업무 담당자에게 물어볼 것은 직접 질문하고, 답을 CONTRACT에 반영한다
 
-확정되면 `git init -q 2>/dev/null; git add AGENTS.md CONTRACT.md && git commit -m "contract"`.
+확정되면 `git init -q 2>/dev/null; git add AGENTS.md CONTRACT.md && git commit -m "contract"`. 커밋이 사용자 정보 없음으로 실패하면 `git config user.name examinee && git config user.email examinee@localhost`를 먼저 실행한다.
 
 > 웹 서비스가 아니거나 boilerplate 판정이 "아니오"면 **경로 B**로 간다(맨 아래).
 
